@@ -31,7 +31,7 @@ def icon_for_window(window):
     if name in WINDOW_ICONS:
         return WINDOW_ICONS[name]
 
-    logging.info("No icon available for window with name: %s" % str(name))
+    logging.info(f"No icon available for window with name: {str(name)}")
     return DEFAULT_ICON
 
 def rename_workspaces(ipc):
@@ -46,7 +46,7 @@ def rename_workspaces(ipc):
                 icon_tuple += (icon,)
         name_parts["icons"] = "  ".join(icon_tuple) + " "
         new_name = construct_workspace_name(name_parts)
-        ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
+        ipc.command(f'rename workspace "{workspace.name}" to "{new_name}"')
 
 
 def undo_window_renaming(ipc):
@@ -54,7 +54,7 @@ def undo_window_renaming(ipc):
         name_parts = parse_workspace_name(workspace.name)
         name_parts["icons"] = None
         new_name = construct_workspace_name(name_parts)
-        ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
+        ipc.command(f'rename workspace "{workspace.name}" to "{new_name}"')
     ipc.main_quit()
     sys.exit(0)
 
@@ -70,11 +70,11 @@ def construct_workspace_name(parts):
     if parts["shortname"] or parts["icons"]:
         new_name += ":"
 
-        if parts["shortname"]:
-            new_name += parts["shortname"]
+    if parts["shortname"]:
+        new_name += parts["shortname"]
 
-        if parts["icons"]:
-            new_name += " " + parts["icons"]
+    if parts["icons"]:
+        new_name += " " + parts["icons"]
 
     return new_name
 
